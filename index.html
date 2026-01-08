@@ -28,7 +28,7 @@
             height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Changed from center to flex-start to align top */
             position: relative;
         }
 
@@ -48,8 +48,9 @@
             z-index: 10;
             width: 90%;
             max-width: 500px;
+            height: 100%; /* Ensure container takes full height for positioning */
             perspective: 1000px;
-            padding-bottom: 50px; 
+            /* Padding removed/adjusted as alignment is now top-based */
         }
 
         /* --- Card Border Animation Keyframes --- */
@@ -75,13 +76,13 @@
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             position: absolute;
             width: 100%;
-            /* Fixed positioning from top to ensure it starts after credits */
-            top: 70px; 
+            /* Positioning from top of viewport */
+            top: 80px; /* Starts just below the top credits (approx 20px + padding) */
             left: 50%;
             transform: translateX(-50%);
             display: none; 
             opacity: 0;
-            /* Calculate height to fit in available space */
+            /* Calculate height to fit in available space: 80px top + space for buttons/footer */
             max-height: calc(100vh - 180px); 
             overflow-y: auto; 
             scrollbar-width: none; 
@@ -401,7 +402,7 @@
                 padding: 1.5rem; 
                 width: 90%; 
                 max-height: calc(100vh - 180px); 
-                top: 70px; /* Adjusted closer to top */
+                top: 80px; /* Consistent top spacing */
             }
             
             .btn { 
