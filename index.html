@@ -235,43 +235,48 @@
 
         /* --- SEPARATE FOOTER ELEMENTS --- */
         
-        /* Animation for Footer Elements */
-        @keyframes footerEntry {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Updated Animation for Centered Footer Elements */
+        @keyframes footerEntryBottomCenter {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
         }
 
-        @keyframes footerGlow {
-            0%, 100% { transform: translateY(0); filter: brightness(1); }
-            50% { transform: translateY(-5px); filter: brightness(1.2); }
+        @keyframes footerEntryTopCenter {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
         }
 
-        /* 1. Support Button - Bottom Left */
+        @keyframes footerGlowBottomCenter {
+            0%, 100% { transform: translate(-50%, 0); filter: brightness(1); }
+            50% { transform: translate(-50%, -5px); filter: brightness(1.2); }
+        }
+
+        /* 1. Support Button - Bottom Center */
         .footer-left {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            left: 50%; /* Center horizontally */
             z-index: 999;
-            /* Added Animations */
+            /* Animation handles centering */
             opacity: 0;
-            animation: footerEntry 1s ease-out forwards, footerGlow 3s infinite ease-in-out 1s;
+            animation: footerEntryBottomCenter 1s ease-out forwards, footerGlowBottomCenter 3s infinite ease-in-out 1s;
         }
 
-        /* 2. Credits - Bottom Right */
+        /* 2. Credits - Top Center */
         .footer-right {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            top: 20px; /* Top position */
+            left: 50%; /* Center horizontally */
             z-index: 999;
-            text-align: right;
+            text-align: center;
             background: rgba(0, 0, 0, 0.3);
             padding: 8px 15px;
             border-radius: 30px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255,255,255,0.15);
-            /* Added Animations */
+            /* Animation handles centering */
             opacity: 0;
-            animation: footerEntry 1s ease-out forwards, footerGlow 3s infinite ease-in-out 1.5s;
+            animation: footerEntryTopCenter 1s ease-out forwards;
         }
 
         .footer-right p {
@@ -411,15 +416,16 @@
             }
 
             .footer-left {
-                bottom: 15px;
-                left: 15px;
-                transform: scale(0.9);
-                transform-origin: bottom left;
+                bottom: 20px; /* Keep consistent spacing */
+                left: 50%;
+                transform: translateX(-50%); /* Ensure centered */
+                transform-origin: center;
             }
 
             .footer-right {
-                bottom: 15px;
-                right: 15px;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
                 padding: 6px 12px;
             }
             .footer-right p { font-size: 0.7rem; }
