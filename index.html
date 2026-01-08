@@ -75,12 +75,14 @@
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             position: absolute;
             width: 100%;
-            top: 55%; /* Moved down slightly to sit clearly below top credits */
+            /* Fixed positioning from top to ensure it starts after credits */
+            top: 70px; 
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             display: none; 
             opacity: 0;
-            max-height: 65vh; /* Reduced max-height to ensure bottom clearance */
+            /* Calculate height to fit in available space */
+            max-height: calc(100vh - 180px); 
             overflow-y: auto; 
             scrollbar-width: none; 
         }
@@ -93,8 +95,8 @@
         }
 
         @keyframes popIn {
-            0% { transform: translate(-50%, -30%) scale(0.8); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            0% { transform: translateX(-50%) scale(0.8) translateY(-20px); opacity: 0; }
+            100% { transform: translateX(-50%) scale(1) translateY(0); opacity: 1; }
         }
 
         /* --- Typography --- */
@@ -398,8 +400,8 @@
             .card { 
                 padding: 1.5rem; 
                 width: 90%; 
-                max-height: 45vh; 
-                top: 48%; /* Adjusted to be centered lower to clear top credits */
+                max-height: calc(100vh - 180px); 
+                top: 70px; /* Adjusted closer to top */
             }
             
             .btn { 
@@ -644,6 +646,9 @@
         }
 
         function resetApp() {
+            // Clear URL parameter to return to fresh state
+            window.history.pushState({}, document.title, window.location.pathname);
+
             document.getElementById('wishPage').classList.remove('active');
             
             const actionBtns = document.getElementById('actionButtons');
@@ -651,7 +656,10 @@
 
             setTimeout(() => {
                 document.getElementById('wishPage').style.display = 'none';
-                document.getElementById('inputPage').classList.add('active');
+                document.getElementById('inputPage').style.display = 'block'; // Ensure block display before active
+                requestAnimationFrame(() => {
+                    document.getElementById('inputPage').classList.add('active');
+                });
                 document.getElementById('userNameInput').value = '';
                 initKites(35); 
             }, 500);
@@ -659,7 +667,10 @@
 
         async function shareWish() {
             const name = document.getElementById('displaySenderName').innerText;
-            const url = window.location.href;
+            
+            // Construct URL with the name parameter
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?n=${encodeURIComponent(name)}`;
             
             // Updated Emotional & Cute Message
             const text = `✨ Surprise! ✨\n\n${name} has sent you a very special & heartfelt Makar Sankranti wish! 🪁💖\n\nOpen this magical link to see your beautiful surprise: 👇`;
@@ -669,13 +680,13 @@
                     await navigator.share({
                         title: '✨ Special Makar Sankranti Wish! ✨',
                         text: text,
-                        url: url
+                        url: shareUrl
                     });
                 } catch (err) {
                     console.log('Error sharing:', err);
                 }
             } else {
-                copyToClipboard(`${text}\n${url}`);
+                copyToClipboard(`${text}\n${shareUrl}`);
             }
         }
 
@@ -723,6 +734,38 @@
             toast.className = "show";
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
+
+        // --- Check for Shared Link on Load ---
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sharedName = urlParams.get('n');
+
+            if (sharedName) {
+                const decodedName = decodeURIComponent(sharedName);
+                
+                // Hide input page immediately
+                const inputPage = document.getElementById('inputPage');
+                inputPage.classList.remove('active');
+                
+                // Setup Wish Page
+                document.getElementById('displaySenderName').innerText = decodedName;
+                const wishPage = document.getElementById('wishPage');
+                wishPage.style.display = 'block';
+                
+                // Show Action Buttons
+                const actionBtns = document.getElementById('actionButtons');
+                actionBtns.classList.add('visible');
+
+                // Trigger Animation with a slight delay for smooth entry
+                setTimeout(() => {
+                    wishPage.classList.add('active');
+                    // Add a celebration burst for the receiver
+                    for(let i=0; i<40; i++) {
+                        kites.push(new Kite(true));
+                    }
+                }, 100);
+            }
+        });
     </script>
 </body>
 </html>
