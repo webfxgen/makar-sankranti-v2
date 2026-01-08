@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Makar Sankranti</title>
+    <!-- Premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #ff7e5f;
+            --secondary: #feb47b;
+            --accent: #ffcc00;
+            --text-dark: #2c3e50;
+            /* Updated to Black Glassmorphism for better text visibility */
+            --glass-bg: rgba(0, 0, 0, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- Background Animation Canvas --- */
+        #skyCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+            perspective: 1000px;
+            padding-bottom: 50px; 
+        }
+
+        /* --- Card Border Animation Keyframes --- */
+        @keyframes borderGlow {
+            0% { border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); }
+            25% { border-color: #ff7e5f; box-shadow: 0 8px 32px 0 rgba(255, 126, 95, 0.3); }
+            50% { border-color: #ffcc00; box-shadow: 0 8px 32px 0 rgba(255, 204, 0, 0.3); }
+            75% { border-color: #38ef7d; box-shadow: 0 8px 32px 0 rgba(56, 239, 125, 0.3); }
+            100% { border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); }
+        }
+
+        /* --- Glassmorphism Cards --- */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border); 
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            color: white;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none; 
+            opacity: 0;
+            max-height: 70vh; 
+            overflow-y: auto; 
+            scrollbar-width: none; 
+        }
+        .card::-webkit-scrollbar { display: none; }
+
+        .card.active {
+            display: block;
+            opacity: 1;
+            animation: popIn 0.8s forwards, borderGlow 4s infinite linear; 
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -30%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* --- Typography --- */
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            color: #fff;
+            letter-spacing: 1px;
+            animation: pulseText 3s infinite ease-in-out;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Color Changing Text Animation */
+        @keyframes rainbowShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .wish-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            line-height: 1.2;
+            margin: 1.5rem 0;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            
+            /* Gradient Text Settings */
+            background: linear-gradient(to right, #ffcc00, #ff7e5f, #38ef7d, #00f2fe, #ffcc00);
+            background-size: 300% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            
+            /* Animation */
+            animation: rainbowShine 3s linear infinite;
+        }
+
+        .sub-text {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: #f0f0f0;
+            line-height: 1.6;
+        }
+
+        /* --- Inputs & Buttons --- */
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        input[type="text"]:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes attentionPulse {
+            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
+            100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff512f, #dd2476);
+            color: white;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(221, 36, 118, 0.4);
+            text-decoration: none;
+            display: inline-block;
+            margin: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: attentionPulse 2s infinite ease-in-out;
+        }
+
+        .btn:hover {
+            animation: none; 
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(221, 36, 118, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+        }
+        
+        .razorpay-payment-button {
+            border-radius: 30px !important; 
+            min-height: 40px;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .razorpay-payment-button:hover {
+            transform: scale(1.05) !important;
+        }
+
+        /* --- Footer/Signature --- */
+        .signature {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .name-highlight {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* --- SEPARATE FOOTER ELEMENTS --- */
+        
+        /* Animation for Footer Elements */
+        @keyframes footerEntry {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes footerGlow {
+            0%, 100% { transform: translateY(0); filter: brightness(1); }
+            50% { transform: translateY(-5px); filter: brightness(1.2); }
+        }
+
+        /* 1. Support Button - Bottom Left */
+        .footer-left {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 999;
+            /* Added Animations */
+            opacity: 0;
+            animation: footerEntry 1s ease-out forwards, footerGlow 3s infinite ease-in-out 1s;
+        }
+
+        /* 2. Credits - Bottom Right */
+        .footer-right {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            text-align: right;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.15);
+            /* Added Animations */
+            opacity: 0;
+            animation: footerEntry 1s ease-out forwards, footerGlow 3s infinite ease-in-out 1.5s;
+        }
+
+        .footer-right p {
+            font-size: 0.8rem;
+            color: #fff;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .footer-right a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* --- FLOATING ACTION BUTTONS (Outside Box) --- */
+        .action-buttons {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 90;
+            display: none;
+            gap: 15px;
+            width: 100%;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .action-buttons.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* --- Loading/Transition Overlay --- */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+        .overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner-kite {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff512f, #dd2476);
+            transform: rotate(45deg);
+            animation: spinKite 1s infinite alternate ease-in-out;
+            margin-bottom: 25px;
+            box-shadow: 0 0 30px var(--primary);
+            position: relative;
+        }
+        
+        .spinner-kite::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: white;
+            transform: translateX(-50%);
+        }
+
+        @keyframes spinKite {
+            0% { transform: rotate(35deg) scale(0.9); }
+            100% { transform: rotate(55deg) scale(1.1); }
+        }
+
+        /* --- Custom Toast Notification --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            font-size: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 160px;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .wish-text { font-size: 2.2rem; }
+            h1 { font-size: 1.5rem; }
+            
+            .card { 
+                padding: 1.5rem; 
+                width: 92%; 
+                max-height: 55vh; 
+                top: 45%; 
+            }
+            
+            .btn { 
+                width: auto; 
+                margin: 0; 
+                padding: 12px 25px; 
+                font-size: 0.9rem;
+            }
+
+            .action-buttons {
+                flex-direction: row; 
+                bottom: 80px;
+                padding: 0 10px;
+            }
+
+            .footer-left {
+                bottom: 15px;
+                left: 15px;
+                transform: scale(0.9);
+                transform-origin: bottom left;
+            }
+
+            .footer-right {
+                bottom: 15px;
+                right: 15px;
+                padding: 6px 12px;
+            }
+            .footer-right p { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Canvas -->
+    <canvas id="skyCanvas"></canvas>
+
+    <!-- Transition Overlay -->
+    <div class="overlay" id="loadingOverlay">
+        <div class="spinner-kite"></div>
+        <h3 style="font-family: 'Great Vibes'; font-size: 2rem; letter-spacing: 1px;">Flying high...</h3>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38ef7d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="toastMsg">Link Copied!</span>
+    </div>
+
+    <div class="container">
+        <!-- 1. Input Page -->
+        <div class="card active" id="inputPage">
+            <h1>Makar Sankranti<br>Wishes</h1>
+            <p class="sub-text">Enter your name to create a magical greeting card for your loved ones.</p>
+            <input type="text" id="userNameInput" placeholder="Enter Your Name..." autocomplete="off">
+            <button class="btn" onclick="generateWish()">Create Wish</button>
+        </div>
+
+        <!-- 2. Wish Page -->
+        <div class="card" id="wishPage">
+            <h2 style="font-size: 1rem; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8;">Happy</h2>
+            <!-- Animated Wish Text -->
+            <div class="wish-text">Makar Sankranti</div>
+            <p class="sub-text">
+                "May the rising sun of Makar Sankranti fill your life with abundant joy and prosperity.<br><br><strong>Til-Gul Ghya, God God Bola!</strong>"
+            </p>
+            
+            <div class="signature">
+                Best Wishes From,<br>
+                <span class="name-highlight" id="displaySenderName">User</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons (Outside Box) -->
+    <div class="action-buttons" id="actionButtons">
+        <button class="btn" onclick="shareWish()">Share Wish</button>
+        <button class="btn btn-secondary" onclick="resetApp()">Create New</button>
+    </div>
+
+    <!-- Footer Elements -->
+    <div class="footer-left">
+        <form>
+            <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_S0CCnxIwut7hNL" async> </script> 
+        </form>
+    </div>
+
+    <div class="footer-right">
+        <p>Check out more at <a href="https://www.webfxgen.in/" target="_blank">webfxgen.in</a></p>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const canvas = document.getElementById('skyCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let kites = [];
+        const colors = ['#FF512F', '#DD2476', '#FFCC00', '#38ef7d', '#00f2fe', '#fff', '#ff9966', '#ff5e62'];
+
+        // --- Resize Handling ---
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // --- Kite Class ---
+        class Kite {
+            constructor(isExplosion = false) {
+                this.init(isExplosion);
+            }
+
+            init(isExplosion) {
+                this.x = Math.random() * width;
+                this.y = isExplosion ? height / 2 : height + Math.random() * 200;
+                this.size = Math.random() * 15 + 10;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Speed calculation
+                if (isExplosion) {
+                    this.speedY = -(Math.random() * 8 + 3);
+                    this.speedX = (Math.random() - 0.5) * 12;
+                    this.drag = 0.98; // Slow down explosion particles
+                } else {
+                    this.speedY = -(Math.random() * 2 + 0.5);
+                    this.speedX = (Math.random() - 0.5) * 1.5;
+                    this.drag = 1;
+                }
+                
+                this.angle = 0;
+                this.spin = (Math.random() - 0.5) * 0.15;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.speedX *= this.drag; // Apply drag
+                this.angle += this.spin;
+
+                // Reset if out of bounds (looping background kites only)
+                if (this.drag === 1) { // Only loop normal kites
+                    if (this.y < -50) {
+                        this.y = height + 50;
+                        this.x = Math.random() * width;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle + Math.PI / 4); // Rotate 45deg for diamond shape
+                ctx.fillStyle = this.color;
+                
+                // Draw Diamond Kite Body
+                ctx.beginPath();
+                ctx.rect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.fill();
+                
+                // Draw Shine
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                ctx.beginPath();
+                ctx.moveTo(-this.size/2, -this.size/2);
+                ctx.lineTo(this.size/2, -this.size/2);
+                ctx.lineTo(-this.size/2, this.size/2);
+                ctx.fill();
+
+                // Draw Tail
+                ctx.beginPath();
+                ctx.moveTo(0, this.size/1.5);
+                ctx.lineTo(-5, this.size + 15);
+                ctx.lineTo(5, this.size + 15);
+                ctx.fillStyle = this.color; 
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        // --- Animation Loop ---
+        function initKites(count) {
+            kites = [];
+            for (let i = 0; i < count; i++) {
+                let k = new Kite(false);
+                k.y = Math.random() * height; // Distribute vertically
+                kites.push(k);
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Filter out explosion kites that have gone off screen to save memory
+            kites = kites.filter(k => k.y > -100 && k.y < height + 200 || k.drag === 1);
+
+            kites.forEach(kite => {
+                kite.update();
+                kite.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        initKites(35); // Start with 35 background kites
+        animate();
+
+        // --- App Logic ---
+        
+        function generateWish() {
+            const inputName = document.getElementById('userNameInput').value.trim();
+            if (!inputName) {
+                showToast("Please enter your name first!", true);
+                return;
+            }
+
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.add('visible');
+
+            document.getElementById('inputPage').classList.remove('active');
+
+            // Trigger Kite Explosion
+            for(let i=0; i<60; i++) {
+                let k = new Kite(true); 
+                kites.push(k);
+            }
+
+            setTimeout(() => {
+                overlay.classList.remove('visible');
+                
+                document.getElementById('displaySenderName').innerText = inputName;
+                
+                const wishPage = document.getElementById('wishPage');
+                wishPage.style.display = 'block'; 
+                
+                const actionBtns = document.getElementById('actionButtons');
+                actionBtns.classList.add('visible');
+                
+                void wishPage.offsetWidth; 
+                wishPage.classList.add('active');
+
+            }, 2000);
+        }
+
+        function resetApp() {
+            document.getElementById('wishPage').classList.remove('active');
+            
+            const actionBtns = document.getElementById('actionButtons');
+            actionBtns.classList.remove('visible');
+
+            setTimeout(() => {
+                document.getElementById('wishPage').style.display = 'none';
+                document.getElementById('inputPage').classList.add('active');
+                document.getElementById('userNameInput').value = '';
+                initKites(35); 
+            }, 500);
+        }
+
+        async function shareWish() {
+            const name = document.getElementById('displaySenderName').innerText;
+            const url = window.location.href;
+            
+            // Updated Emotional & Cute Message
+            const text = `✨ Surprise! ✨\n\n${name} has sent you a very special & heartfelt Makar Sankranti wish! 🪁💖\n\nOpen this magical link to see your beautiful surprise: 👇`;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: '✨ Special Makar Sankranti Wish! ✨',
+                        text: text,
+                        url: url
+                    });
+                } catch (err) {
+                    console.log('Error sharing:', err);
+                }
+            } else {
+                copyToClipboard(`${text}\n${url}`);
+            }
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("Link & Message copied!");
+                }, (err) => {
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";  
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast("Link & Message copied!");
+            } catch (err) {
+                showToast("Failed to copy link.", true);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toastMsg");
+            toastMsg.innerText = message;
+            
+            if(isError) {
+                toast.style.border = "1px solid #ff512f";
+                toast.querySelector('svg').style.stroke = "#ff512f";
+            } else {
+                toast.style.border = "none";
+                toast.querySelector('svg').style.stroke = "#38ef7d";
+            }
+
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
+</body>
+</html>
